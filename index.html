@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscador de Libros</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" type="image/svg+xml" href="https://openlibrary.org/static/images/openlibrary-logo-tighter.svg">
+</head>
+
+<body class="bg-gray-100 text-gray-800">
+    <div class="max-w-4xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-lg">
+        <h1 class="text-3xl font-extrabold text-center mb-8 text-gray-700">Buscador de Libros</h1>
+        <form id="search-form" class="flex flex-col md:flex-row gap-4 items-center">
+            <select id="search-type" class="p-2 border rounded w-full md:w-auto">
+                <option value="title">Título</option>
+                <option value="author">Autor</option>
+                <option value="isbn">ISBN</option>
+            </select>
+            <input type="text" id="search-input" placeholder="Escribe tu búsqueda..." required class="p-2 border rounded flex-grow">
+            <button type="submit" class="p-2 bg-blue-600 text-white rounded hover:bg-blue-700">Buscar</button>
+        </form>
+        <div id="results" class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"></div>
+        <div id="pagination" class="mt-8 flex justify-center gap-2"></div>
+    </div>
+    <script src="app.js"></script>
+</body>
+
+</html>
