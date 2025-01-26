@@ -89,3 +89,27 @@ function setupPagination(totalResults) {
         paginationDiv.appendChild(pageButton);
     }
 }
+
+document.getElementById('search-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+    
+    const loadingMessage = document.getElementById('loading-message');
+    const resultsContainer = document.getElementById('results');
+    const paginationContainer = document.getElementById('pagination');
+    
+    // Mostrar el mensaje de carga
+    loadingMessage.classList.remove('hidden');
+    
+    // Limpiar resultados anteriores
+    resultsContainer.innerHTML = '';
+    paginationContainer.innerHTML = '';
+    
+    // Simular una solicitud a la API
+    setTimeout(() => {
+        // Ocultar el mensaje de carga
+        loadingMessage.classList.add('hidden');
+        
+        // Mostrar resultados simulados
+        resultsContainer.innerHTML = '<p>Cargando resultados...</p>';
+    });
+});
