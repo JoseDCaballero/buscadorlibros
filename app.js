@@ -5,14 +5,12 @@ const resultsDiv = document.getElementById('results');
 const paginationDiv = document.getElementById('pagination');
 let currentPage = 1;
 
-// Evento para manejar la búsqueda
 searchForm.addEventListener('submit', async (e) => {
     e.preventDefault();
-    currentPage = 1; // Reiniciar a la primera página
+    currentPage = 1;
     await fetchBooks();
 });
 
-// Función para buscar libros en OpenLibrary
 async function fetchBooks() {
     const query = searchInput.value.trim();
     if (!query) return;
@@ -30,7 +28,6 @@ async function fetchBooks() {
     }
 }
 
-// Mostrar los resultados como tarjetas
 function displayResults(books) {
     resultsDiv.innerHTML = '';
     if (books.length === 0) {
@@ -55,9 +52,14 @@ function displayResults(books) {
     });
 }
 
-// Mejorar la paginación
 function setupPagination(totalResults) {
-    const resultsPerPage = 100; // Resultados por página
+    let resultsPerPage;
+    if (totalResults > 500) {
+        resultsPerPage = 500;
+    } else {
+        resultsPerPage = 100
+    }    
+    
     const totalPages = Math.ceil(totalResults / resultsPerPage);
 
     paginationDiv.innerHTML = '';
@@ -96,20 +98,15 @@ document.getElementById('search-form').addEventListener('submit', function(event
     const loadingMessage = document.getElementById('loading-message');
     const resultsContainer = document.getElementById('results');
     const paginationContainer = document.getElementById('pagination');
-    
-    // Mostrar el mensaje de carga
+        
     loadingMessage.classList.remove('hidden');
-    
-    // Limpiar resultados anteriores
+        
     resultsContainer.innerHTML = '';
     paginationContainer.innerHTML = '';
-    
-    // Simular una solicitud a la API
-    setTimeout(() => {
-        // Ocultar el mensaje de carga
-        loadingMessage.classList.add('hidden');
         
-        // Mostrar resultados simulados
+    setTimeout(() => {        
+        loadingMessage.classList.add('hidden');
+                
         resultsContainer.innerHTML = '<p>Cargando resultados...</p>';
     });
 });
