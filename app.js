@@ -38,7 +38,7 @@ function displayResults(books) {
     books.forEach((book) => {
         const coverUrl = book.cover_i
             ? `https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg`
-            : 'https://via.placeholder.com/150?text=No+Image';
+            : '/img/nocover.jpg';
 
         const bookElement = `
             <div class="bg-white p-4 rounded-lg shadow hover:shadow-lg transition">
@@ -53,43 +53,73 @@ function displayResults(books) {
 }
 
 function setupPagination(totalResults) {
-    let resultsPerPage;
-    if (totalResults > 500) {
-        resultsPerPage = 500;
-    } else {
-        resultsPerPage = 100
-    }    
-    
+    const resultsPerPage = 100;
     const totalPages = Math.ceil(totalResults / resultsPerPage);
 
     paginationDiv.innerHTML = '';
+
     if (totalPages <= 1) return;
 
-    for (let i = 1; i <= totalPages; i++) {
-        const pageButton = document.createElement('button');
-        pageButton.textContent = i;
-        pageButton.classList.add(
-            'px-4',
-            'py-2',
-            'rounded',
-            'border',
-            'hover:bg-blue-600',
-            'hover:text-white',
-            'transition'
-        );
-        if (i === currentPage) {
-            pageButton.classList.add('bg-blue-600', 'text-white');
-        } else {
-            pageButton.classList.add('bg-gray-200');
-        }        
-
-        pageButton.addEventListener('click', async () => {
-            currentPage = i;
-            await fetchBooks();
-        });
-
-        paginationDiv.appendChild(pageButton);
+    // Botón de retroceso
+    const prevButton = document.createElement('button');
+    prevButton.textContent = '<- Anterior';
+    prevButton.classList.add(
+        'px-4',
+        'py-2',
+        'rounded',
+        'border',
+        'hover:bg-blue-600',
+        'hover:text-white',
+        'transition',
+        'bg-gray-200'
+    );
+    if (currentPage === 1) {
+        prevButton.disabled = true;
+        prevButton.classList.add('opacity-50', 'cursor-not-allowed');
     }
+
+    prevButton.addEventListener('click', async () => {
+        if (currentPage > 1) {
+            currentPage--;
+            await fetchBooks();
+        }
+    });
+
+    paginationDiv.appendChild(prevButton);
+
+    // Mostrar página actual
+    const pageInfo = document.createElement('span');
+    pageInfo.textContent = `Página ${currentPage} de ${totalPages}`;
+    pageInfo.classList.add('px-4', 'py-2', 'font-semibold', 'text-gray-700');
+
+    paginationDiv.appendChild(pageInfo);
+
+    // Botón de avance
+    const nextButton = document.createElement('button');
+    nextButton.textContent = 'Siguiente ->';
+    nextButton.classList.add(
+        'px-4',
+        'py-2',
+        'rounded',
+        'border',
+        'hover:bg-blue-600',
+        'hover:text-white',
+        'transition',
+        'bg-gray-200'
+    );
+    if (currentPage === totalPages) {
+        nextButton.disabled = true;
+        nextButton.classList.add('opacity-50', 'cursor-not-allowed');
+    }
+
+    nextButton.addEventListener('click', async () => {
+        if (currentPage < totalPages) {
+            currentPage++;
+            await fetchBooks();
+        }
+    });
+
+    paginationDiv.appendChild(nextButton);
 }
 
 document.getElementById('search-form').addEventListener('submit', function(event) {
